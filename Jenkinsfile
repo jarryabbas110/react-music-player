@@ -7,5 +7,13 @@ pipeline {
       }
     }
 
+    stage('') {
+      steps {
+        sh '''cd react-music-player
+npm install
+npm run build'''
+      }
+    }
+
   }
 }
