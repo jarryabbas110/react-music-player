@@ -12,11 +12,17 @@ pipeline {
 
     stage('Build Docker Image') {
       steps {
-        script {
-          docker.build('your-docker-hub-username/image-name:tag')
+        withCredentials([usernamePassword(credentialsId: '99802012-7a97-4458-a8c0-9f02c94bd058', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+          script {
+            docker.withRegistry('https://registry.hub.docker.com', DOCKER_USERNAME, DOCKER_PASSWORD) {
+              docker.image('jarryabbas110/musicImage:latest').push()
+            }
+          }
         }
       }
+    
     }
+    
     stage('Push to Docker Hub') {
       steps {
         script {
@@ -28,17 +34,6 @@ pipeline {
     }
 
      
-    stage('Build Docker Image') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: '99802012-7a97-4458-a8c0-9f02c94bd058', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-          script {
-            docker.withRegistry('https://registry.hub.docker.com', DOCKER_USERNAME, DOCKER_PASSWORD) {
-              docker.image('jarryabbas110/musicImage:latest').push()
-            }
-          }
-        }
-      }
-    
-    }
+
   }
 }
