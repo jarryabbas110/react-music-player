@@ -3,10 +3,10 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-          dir('/react-music-player') {
+          sh 'cd react-music-player' 
           sh 'npm install'
           sh 'npm run build'
-        }
+        
       }
     }
 
